@@ -1,0 +1,13 @@
+name: TestPlugin
+version: 0.1.0
+author: Christoph & Tim
+main: ch.ct.testplugin.Main
+commands:
+  test:
+  teleport:
+  Rüstung:
+  prison:
+  dumbass:
+  boom:
+  countdown:
+
