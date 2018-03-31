@@ -15,15 +15,26 @@ import java.util.ArrayList;
 
 public class InventoryGUI implements CommandExecutor {
     ItemMeta itemMeta2;
+    ItemStack item3;
     ItemMeta itemMeta3;
+
+    public InventoryGUI() {
+        item3 = new ItemStack(Material.DIAMOND_PICKAXE);
+        itemMeta3 = item3.getItemMeta();
+
+        ArrayList<String> itemlore3 = new ArrayList<String>();
+        itemlore3.add(ChatColor.ITALIC + "Is it a bird or a plane? No its a Minigun!");
+        itemMeta3.setDisplayName(ChatColor.DARK_GRAY + "Minigun");
+        itemMeta3.setLore(itemlore3);
+        item3.setItemMeta(itemMeta3);
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] strings) {
-        if(sender instanceof Player){
+        if (sender instanceof Player) {
             Player p = (Player) sender;
             if (label.equalsIgnoreCase("Inventory")) {
                 createMenu(p);
-
 
 
             }
@@ -33,8 +44,9 @@ public class InventoryGUI implements CommandExecutor {
 
         return false;
     }
+
     //Inv Konfiguration
-    public void createMenu(Player p){
+    public void createMenu(Player p) {
         Inventory inv = Bukkit.getServer().createInventory(null, 9, ChatColor.GOLD + "Serverinventory");
 
         //Item 1
@@ -60,14 +72,6 @@ public class InventoryGUI implements CommandExecutor {
         inv.setItem(1, item2);
 
         //Item 3
-        ItemStack item3 = new ItemStack(Material.DIAMOND_PICKAXE);
-        itemMeta3 = item3.getItemMeta();
-
-        ArrayList<String> itemlore3 = new ArrayList<String>();
-        itemlore3.add(ChatColor.ITALIC + "Is it a bird or a plane? No its a Minigun!");
-        itemMeta3.setDisplayName(ChatColor.DARK_GRAY + "Minigun");
-        itemMeta3.setLore(itemlore3);
-        item3.setItemMeta(itemMeta3);
         inv.setItem(2, item3);
 
         //Open Inv
@@ -75,7 +79,6 @@ public class InventoryGUI implements CommandExecutor {
 
 
     }
-
 
 
 }
