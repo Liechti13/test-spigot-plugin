@@ -13,17 +13,29 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.Random;
 
 public class Main extends JavaPlugin {
+    String Serverm = ChatColor.BLACK + "[" + ChatColor.GOLD + "Server" + ChatColor.BLACK + "] ";
 
 
     @Override
     public void onDisable() {
-        System.out.println("on Disable");
+        System.out.println("Plugin wurde heruntergefahren!");
     }
 
     @Override
     public void onEnable() {
-        System.out.println("on Enable");
+        System.out.println("Plugin wurde gestartet!");
+        ChatMessages cm = new ChatMessages();
+        getServer().getPluginManager().registerEvents(cm, this);
+        InventoryGUI igui = new InventoryGUI();
+        this.getCommand("Inventory").setExecutor(igui);
+        Playertouch pt = new Playertouch(igui, this);
+        getServer().getPluginManager().registerEvents(pt, this);
+        ClickOnPickaxe cp = new ClickOnPickaxe(igui, this);
+        getServer().getPluginManager().registerEvents(cp, this);
+
     }
+
+
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -62,7 +74,7 @@ public class Main extends JavaPlugin {
             public void run() {
                 count += 1;
                 int level = p.getLevel();
-                p.playSound(p.getLocation(), Sound.BLOCK_WOOD_PRESSUREPLATE_CLICK_OFF, SoundCategory.VOICE, 1, 1);
+                p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, SoundCategory.VOICE, 1, 1);
                 p.setLevel(level - 1);
                 if (count == 30) {
                     cancel();
@@ -74,7 +86,7 @@ public class Main extends JavaPlugin {
     }
 
 
-    private void boom(Player p) {
+    public void boom(Player p) {
         World world = p.getWorld();
 
         final int size = 7;
@@ -100,7 +112,7 @@ public class Main extends JavaPlugin {
     }
 
     private void prison(Player p) {
-        p.sendMessage(ChatColor.DARK_RED + "Du wurdest ins Gefängiss gesteckt!");
+        p.sendMessage(Serverm + ChatColor.DARK_RED + "Du wurdest ins Gefängiss gesteckt!");
         Material blockType = Material.OBSIDIAN;
         World world = p.getWorld();
 
@@ -129,10 +141,10 @@ public class Main extends JavaPlugin {
     }
 
     private void ruestung(Player p) {
-        p.sendMessage(ChatColor.LIGHT_PURPLE + "Du hast die Rüstung bekommen!");
+        p.sendMessage(Serverm + ChatColor.LIGHT_PURPLE + "Du hast die Rüstung bekommen!");
         p.setLevel(30);
         p.getInventory().setItem(0, new ItemStack(Material.DIAMOND_SWORD));
-        p.sendMessage(ChatColor.AQUA + "Du hast ein Leben von " + ChatColor.LIGHT_PURPLE + p.getHealth());
+        p.sendMessage(Serverm + ChatColor.AQUA + "Du hast ein Leben von " + ChatColor.LIGHT_PURPLE + p.getHealth());
         p.playSound(p.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.VOICE, 1, 1);
         p.playEffect(p.getLocation(), Effect.PORTAL_TRAVEL, null);
         p.updateInventory();
@@ -146,7 +158,7 @@ public class Main extends JavaPlugin {
             location = new Location(p.getWorld(), r.nextFloat() * 100000, 100, r.nextFloat() * 100000);
         }
         p.teleport(location);
-        p.sendMessage(ChatColor.GOLD + "Du wurdest zu der Position " + ChatColor.DARK_RED + "x: "
+        p.sendMessage(Serverm + ChatColor.GOLD + "Du wurdest zu der Position " + ChatColor.DARK_RED + "x: "
                 + location.getBlockX() + " z: " + location.getBlockZ() + ChatColor.GOLD + " teleportiert.");
         p.playSound(p.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, SoundCategory.VOICE, 1, 1);
         p.playEffect(p.getLocation(), Effect.DRAGON_BREATH, null);
